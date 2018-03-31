@@ -10,6 +10,7 @@
     <version>1.0.1</version>
     <modules>
         <module>java_image_classifier</module>
+        <module>java_image_search</module>
     </modules>
 
 
