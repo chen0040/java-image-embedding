@@ -34,4 +34,13 @@ public class FileUtils {
             }
         }
     }
+
+    public static List<String> getImageFilePaths() {
+        List<String> result = new ArrayList<>();
+        File[] files = getImageFiles();
+        for(File f : files) {
+            result.add(f.getAbsolutePath());
+        }
+        return result;
+    }
 }

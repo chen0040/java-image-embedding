@@ -11,6 +11,7 @@
     <modules>
         <module>java_image_classifier</module>
         <module>java_image_search</module>
+        <module>java_image_recommender</module>
     </modules>
 
 
