@@ -157,7 +157,7 @@ The [sample codes](java_image_search/src/main/java/com/github/chen0040/tensorflo
 below shows how to index and search for image file using the [ImageSearchEngine](java_image_search/src/main/java/com/github/chen0040/tensorflow/search/models/ImageSearchEngine.java) class:
 
 ```java
-ImageSearchEngine searchEngine = new ImageSearchEngine();
+ImageSearchEngine searchEngine = new ImageSearchEngineInception();
 if(!searchEngine.loadIndexDbIfExists()) {
     searchEngine.indexAll(new File("image_samples").listFiles());
     searchEngine.saveIndexDb();
