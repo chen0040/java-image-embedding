@@ -159,14 +159,14 @@ below shows how to index and search for image file using the [ImageSearchEngine]
 ```java
 ImageSearchEngine searchEngine = new ImageSearchEngineInception();
 if(!searchEngine.loadIndexDbIfExists()) {
-    searchEngine.indexAll(new File("image_samples").listFiles());
+    searchEngine.indexAll(FileUtils.getImageFiles());
     searchEngine.saveIndexDb();
 }
 
 int pageIndex = 0;
 int pageSize = 20;
 boolean skipPerfectMatch = true;
-for(File f : new File("image_samples").listFiles()) {
+for(File f : FileUtils.getImageFiles()) {
     System.out.println("querying similar image to " + f.getName());
     List<ImageSearchEntry> result = searchEngine.query(f, pageIndex, pageSize, skipPerfectMatch);
     for(int i=0; i < result.size(); ++i){
@@ -183,7 +183,7 @@ below shows how to recommend images based on user's image history using the [Knn
 ```java
 ImageUserHistory userHistory = new ImageUserHistory();
 
-List<String> imageFiles = FileUtils.getImageFiles();
+List<String> imageFiles = FileUtils.getImageFilePaths();
 Collections.shuffle(imageFiles);
 
 for(int i=0; i < 40; ++i){
