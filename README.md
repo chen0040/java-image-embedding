@@ -33,21 +33,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-InputStream inputStream = ResourceUtils.getInputStream("tf_models/cnn_cifar10.pb");
-Cifar10ImageClassifier classifier = new Cifar10ImageClassifier();
-classifier.load_model(inputStream);
-
-List<String> paths = getImageFiles();
-
-Collections.shuffle(paths);
-
-for (String path : paths) {
-    System.out.println("Predicting " + path + " ...");
-    File f = new File(path);
-    String label = classifier.predict_image(f);
-
-    System.out.println("Predicted: " + label);
+public class Demo {
+    public static void main(String[] args) {
+        InputStream inputStream = ResourceUtils.getInputStream("tf_models/cnn_cifar10.pb");
+        Cifar10ImageClassifier classifier = new Cifar10ImageClassifier();
+        classifier.load_model(inputStream);
+        
+        List<String> paths = getImageFiles();
+        
+        Collections.shuffle(paths);
+        
+        for (String path : paths) {
+            System.out.println("Predicting " + path + " ...");
+            File f = new File(path);
+            String label = classifier.predict_image(f);
+        
+            System.out.println("Predicted: " + label);
+        }
+    }
 }
+
 ```  
 
  
@@ -67,20 +72,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-InceptionImageClassifier classifier = new InceptionImageClassifier();
-classifier.load_model();
-
-List<String> paths = getImageFiles();
-
-Collections.shuffle(paths);
-
-for (String path : paths) {
-    System.out.println("Predicting " + path + " ...");
-    File f = new File(path);
-    String label = classifier.predict_image(f);
-
-    System.out.println("Predicted: " + label);
+public class Demo {
+    public static void main(String[] args){
+        InceptionImageClassifier classifier = new InceptionImageClassifier();
+        classifier.load_model();
+        
+        List<String> paths = getImageFiles();
+        
+        Collections.shuffle(paths);
+        
+        for (String path : paths) {
+            System.out.println("Predicting " + path + " ...");
+            File f = new File(path);
+            String label = classifier.predict_image(f);
+        
+            System.out.println("Predicted: " + label);
+        }
+    }
 }
+
 ```  
 
 ### Extract features from image in Java
@@ -101,21 +111,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-InputStream inputStream = ResourceUtils.getInputStream("tf_models/cnn_cifar10.pb");
-Cifar10ImageClassifier classifier = new Cifar10ImageClassifier();
-classifier.load_model(inputStream);
-
-List<String> paths = getImageFiles();
-
-Collections.shuffle(paths);
-
-for (String path : paths) {
-    System.out.println("Encoding " + path + " ...");
-    File f = new File(path);
-    float[] encoded_image = classifier.encode_image(f);
-
-    System.out.println("Encoded: " + Arrays.toString(encoded_image));
+public class Demo {
+    public static void main(String[] args) {
+        InputStream inputStream = ResourceUtils.getInputStream("tf_models/cnn_cifar10.pb");
+        Cifar10ImageClassifier classifier = new Cifar10ImageClassifier();
+        classifier.load_model(inputStream);
+        
+        List<String> paths = getImageFiles();
+        
+        Collections.shuffle(paths);
+        
+        for (String path : paths) {
+            System.out.println("Encoding " + path + " ...");
+            File f = new File(path);
+            float[] encoded_image = classifier.encode_image(f);
+        
+            System.out.println("Encoded: " + Arrays.toString(encoded_image));
+        }
+    }
 }
+
 ```  
 
  
@@ -135,19 +150,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-InceptionImageClassifier classifier = new InceptionImageClassifier();
-classifier.load_model();
-
-List<String> paths = getImageFiles();
-
-Collections.shuffle(paths);
-
-for (String path : paths) {
-    System.out.println("Encoding " + path + " ...");
-    File f = new File(path);
-    float[] encoded_image = classifier.encode_image(f);
-
-    System.out.println("Encoded: " + Arrays.toString(encoded_image));
+public class Demo {
+    public static void main(String[] args) {
+        InceptionImageClassifier classifier = new InceptionImageClassifier();
+        classifier.load_model();
+        
+        List<String> paths = getImageFiles();
+        
+        Collections.shuffle(paths);
+        
+        for (String path : paths) {
+            System.out.println("Encoding " + path + " ...");
+            File f = new File(path);
+            float[] encoded_image = classifier.encode_image(f);
+        
+            System.out.println("Encoded: " + Arrays.toString(encoded_image));
+        }
+    }
 }
 ```  
 
@@ -157,20 +176,32 @@ The [sample codes](java_image_search/src/main/java/com/github/chen0040/tensorflo
 below shows how to index and search for image file using the [ImageSearchEngine](java_image_search/src/main/java/com/github/chen0040/tensorflow/search/models/ImageSearchEngine.java) class:
 
 ```java
-ImageSearchEngine searchEngine = new ImageSearchEngineInception();
-if(!searchEngine.loadIndexDbIfExists()) {
-    searchEngine.indexAll(FileUtils.getImageFiles());
-    searchEngine.saveIndexDb();
-}
+import com.github.chen0040.tensorflow.classifiers.images.utils.FileUtils;
+import com.github.chen0040.tensorflow.search.models.ImageSearchEngine;
+import com.github.chen0040.tensorflow.search.models.ImageSearchEngineInception;
+import com.github.chen0040.tensorflow.search.models.ImageSearchEntry;
 
-int pageIndex = 0;
-int pageSize = 20;
-boolean skipPerfectMatch = true;
-for(File f : FileUtils.getImageFiles()) {
-    System.out.println("querying similar image to " + f.getName());
-    List<ImageSearchEntry> result = searchEngine.query(f, pageIndex, pageSize, skipPerfectMatch);
-    for(int i=0; i < result.size(); ++i){
-        System.out.println("# " + i + ": " + result.get(i).getPath() + " (distSq: " + result.get(i).getDistanceSq() + ")");
+import java.io.File;
+import java.util.List;
+
+public class Demo {
+    public static void main(String[] args){
+        ImageSearchEngine searchEngine = new ImageSearchEngineInception();
+        if(!searchEngine.loadIndexDbIfExists()) {
+            searchEngine.indexAll(FileUtils.getImageFiles());
+            searchEngine.saveIndexDb();
+        }
+        
+        int pageIndex = 0;
+        int pageSize = 20;
+        boolean skipPerfectMatch = true;
+        for(File f : FileUtils.getImageFiles()) {
+            System.out.println("querying similar image to " + f.getName());
+            List<ImageSearchEntry> result = searchEngine.query(f, pageIndex, pageSize, skipPerfectMatch);
+            for(int i=0; i < result.size(); ++i){
+                System.out.println("# " + i + ": " + result.get(i).getPath() + " (distSq: " + result.get(i).getDistanceSq() + ")");
+            }
+        }
     }
 }
 ```  
@@ -181,35 +212,48 @@ The [sample codes](java_image_recommender/src/main/java/com/github/chen0040/tens
 below shows how to recommend images based on user's image history using the [KnnImageRecommender](java_image_recommender/src/main/java/com/github/chen0040/tensorflow/search/models/KnnImageRecommender.java) class:
 
 ```java
-ImageUserHistory userHistory = new ImageUserHistory();
+import com.github.chen0040.tensorflow.classifiers.images.utils.FileUtils;
+import com.github.chen0040.tensorflow.recommenders.models.ImageUserHistory;
+import com.github.chen0040.tensorflow.recommenders.models.KnnImageRecommender;
+import com.github.chen0040.tensorflow.search.models.ImageSearchEntry;
 
-List<String> imageFiles = FileUtils.getImageFilePaths();
-Collections.shuffle(imageFiles);
+import java.util.Collections;
+import java.util.List;
 
-for(int i=0; i < 40; ++i){
-    String filePath = imageFiles.get(i);
-    userHistory.logImage(filePath);
-    try {
-        Thread.sleep(100L);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
+public class Demo {
+    public static void main(String[] args){
+        ImageUserHistory userHistory = new ImageUserHistory();
+        
+        List<String> imageFiles = FileUtils.getImageFilePaths();
+        Collections.shuffle(imageFiles);
+        
+        for(int i=0; i < 40; ++i){
+            String filePath = imageFiles.get(i);
+            userHistory.logImage(filePath);
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        KnnImageRecommender recommender = new KnnImageRecommender();
+        if(!recommender.loadIndexDbIfExists()) {
+            recommender.indexAll(new File("image_samples").listFiles(a -> a.getAbsolutePath().toLowerCase().endsWith(".au")));
+            recommender.saveIndexDb();
+        }
+        
+        System.out.println(userHistory.head(10));
+        
+        int k = 10;
+        List<ImageSearchEntry> result = recommender.recommends(userHistory.getHistory(), k);
+        
+        for(int i=0; i < result.size(); ++i){
+            ImageSearchEntry entry = result.get(i);
+            System.out.println("Search Result #" + (i+1) + ": " + entry.getPath());
+        }
     }
 }
 
-KnnImageRecommender recommender = new KnnImageRecommender();
-if(!recommender.loadIndexDbIfExists()) {
-    recommender.indexAll(new File("image_samples").listFiles(a -> a.getAbsolutePath().toLowerCase().endsWith(".au")));
-    recommender.saveIndexDb();
-}
-
-System.out.println(userHistory.head(10));
-
-int k = 10;
-List<ImageSearchEntry> result = recommender.recommends(userHistory.getHistory(), k);
-
-for(int i=0; i < result.size(); ++i){
-    ImageSearchEntry entry = result.get(i);
-    System.out.println("Search Result #" + (i+1) + ": " + entry.getPath());
-}
 
 ```
